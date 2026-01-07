@@ -5,7 +5,7 @@ $id = $_GET['id'] ?? null;
 $platform = null;
 
 if ($id) {
-    $platform = getPlatformById($id); 
+    $platform = getPlatform($id); 
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

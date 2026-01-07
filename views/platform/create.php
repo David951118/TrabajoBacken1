@@ -5,10 +5,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
     if (!empty($name)) {
         if (storePlatform($name)) {
-            header('Location: list.php');
-            exit();
+            $message = "Plataforma creada correctamente.";
         } else {
-            $error = "Error al crear la plataforma.";
+            $error = "La plataforma no se ha creado correctamente.";
         }
     } else {
         $error = "El nombre de la plataforma es obligatorio.";
@@ -39,8 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Nueva Plataforma</h4>
                     </div>
                     <div class="card-body">
+                        <?php if (isset($message)): ?>
+                            <div class="alert alert-success" role="alert">
+                                <?php echo $message; ?><br><a href="list.php">Volver al listado de plataformas.</a>
+                            </div>
+                        <?php endif; ?>
                         <?php if (isset($error)): ?>
-                            <div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i><?php echo $error; ?></div>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo $error; ?><br><a href="create.php">Volver a intentarlo.</a>
+                            </div>
                         <?php endif; ?>
                         
                         <form method="POST" action="create.php">
