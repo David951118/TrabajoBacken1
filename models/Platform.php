@@ -51,10 +51,19 @@ class Platform
         $stmt = $mysqli->prepare("INSERT INTO PLATFORMS (name) VALUES (?)");
         $stmt->bind_param('s', $this->name);
 
-        if ($stmt->execute()) {
-            $platformCreated = true;
-            $this->id = $mysqli->insert_id;
+        // Comprobar que no existe otra plataforma con el mismo nombre antes de crear
+        $checkStmt = $mysqli->prepare("SELECT id FROM PLATFORMS WHERE name = ?");
+        $checkStmt->bind_param('s', $this->name);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+        
+        if ($checkStmt->num_rows == 0) {
+            if ($stmt->execute()) {
+                $platformCreated = true;
+                $this->id = $mysqli->insert_id;
+            }
         }
+        $checkStmt->close();
 
         $stmt->close();
 
