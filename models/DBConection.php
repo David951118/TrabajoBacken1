@@ -9,9 +9,9 @@ class DBConection
     {
         $db_host = 'localhost';
         $db_user = 'root';
-        $db_password = '';
+        $db_password = 'root';
         $db_db = 'actividad1_1';
-        $db_port = 3306; 
+        $db_port = 3306;
 
         $mysqli = @new mysqli(
             $db_host,
