@@ -17,12 +17,11 @@ class DBConection
             $db_host,
             $db_user,
             $db_password,
-            $db_db,
-            $db_port
+            $db_db
         );
 
         if ($mysqli->connect_error) {
-            die('Errno: ' . $mysqli->connect_errno . '<br>' . 'Error: ' . $mysqli->connect_error);
+            die('Error: ' . $mysqli->connect_error . '<br>' . 'Error: ' . $mysqli->connect_error);
 
         }
 
