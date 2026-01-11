@@ -11,11 +11,23 @@ class SeriesActor
         $this->actor_id = $actor_id;
     }
 
-    public function getSeriesId() { return $this->series_id; }
-    public function getActorId() { return $this->actor_id; }
+    public function getSeriesId()
+    {
+        return $this->series_id;
+    }
+    public function getActorId()
+    {
+        return $this->actor_id;
+    }
 
-    public function setSeriesId($series_id) { $this->series_id = $series_id; }
-    public function setActorId($actor_id) { $this->actor_id = $actor_id; }
+    public function setSeriesId($series_id)
+    {
+        $this->series_id = $series_id;
+    }
+    public function setActorId($actor_id)
+    {
+        $this->actor_id = $actor_id;
+    }
 
     public function getAll()
     {
