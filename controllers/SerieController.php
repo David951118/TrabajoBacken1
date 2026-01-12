@@ -19,7 +19,7 @@ function getSerie($id)
 function storeSerie($title, $platform_id, $director_id)
 {
     $new = new Serie(null, $title, $platform_id, $director_id);
-    return $new->store() ? $new : false;
+    return $new->store();
 }
 
 function updateSerie($id, $title, $platform_id, $director_id)

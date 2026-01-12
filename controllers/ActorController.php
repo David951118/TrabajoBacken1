@@ -19,7 +19,7 @@ function getActor($id)
 function storeActor($first_name, $last_name, $birth_date, $nationality)
 {
     $new = new Actor(null, $first_name, $last_name, $birth_date, $nationality);
-    return $new->store() ? $new : false;
+    return $new->store();
 }
 
 function updateActor($id, $first_name, $last_name, $birth_date, $nationality)

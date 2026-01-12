@@ -19,7 +19,7 @@ function getDirector($id)
 function storeDirector($first_name, $last_name, $birth_date, $nationality)
 {
     $new = new Director(null, $first_name, $last_name, $birth_date, $nationality);
-    return $new->store() ? $new : false;
+    return $new->store();
 }
 
 function updateDirector($id, $first_name, $last_name, $birth_date, $nationality)
