@@ -27,7 +27,6 @@ require_once('../../controllers/PlatformController.php');
                 <div class="card-body">
                     <?php $list = listSeries();
                     $platforms = listPlatforms();
-                    // Helper to get platform name (inefficient but simple for this activity)
                     function getPlatformName($id, $platforms)
                     {
                         foreach ($platforms as $p) {

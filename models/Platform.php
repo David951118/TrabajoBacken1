@@ -38,7 +38,7 @@ class Platform
         foreach ($query as $item) {
             $itemObject = new Platform($item['id'], $item['name']);
             array_push($listData, $itemObject);
-            /*  $listData[] = $itemObject; */
+
         }
         return $listData;
     }
@@ -51,7 +51,7 @@ class Platform
         $stmt = $mysqli->prepare("INSERT INTO PLATFORMS (name) VALUES (?)");
         $stmt->bind_param('s', $this->name);
 
-        // Comprobar que no existe otra plataforma con el mismo nombre antes de crear
+
         $checkStmt = $mysqli->prepare("SELECT id FROM PLATFORMS WHERE name = ?");
         $checkStmt->bind_param('s', $this->name);
         $checkStmt->execute();

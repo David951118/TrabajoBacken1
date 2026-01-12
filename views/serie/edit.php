@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $error = "Error al actualizar.";
             $item = getSerie($id);
-        } // Refetch to prevent data loss on error
+        }
     } else {
         $error = "Todos los campos son obligatorios.";
         $item = getSerie($id);

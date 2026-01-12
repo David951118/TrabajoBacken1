@@ -1,12 +1,12 @@
 <?php
-// Determine path context based on existence of 'views' directory
+
 $at_root = is_dir('views');
 
 $css_path = $at_root ? 'views/sidebar/sidebar.css' : '../sidebar/sidebar.css';
 $home_path = $at_root ? 'index.php' : '../../index.php';
 $view_path = $at_root ? 'views/' : '../';
 
-// Determine current page for active state
+
 $current_page = $_SERVER['PHP_SELF'];
 ?>
 

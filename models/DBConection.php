@@ -9,15 +9,16 @@ class DBConection
     {
         $db_host = 'localhost';
         $db_user = 'root';
-        $db_password = 'root';
+        $db_password = '';
         $db_db = 'actividad1_1';
-        $db_port = 3306;
+        $db_port = 3307;
 
         $mysqli = @new mysqli(
             $db_host,
             $db_user,
             $db_password,
-            $db_db
+            $db_db,
+            $db_port
         );
 
         if ($mysqli->connect_error) {

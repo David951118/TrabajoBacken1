@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Redireccionar al listado independientemente del resultado
+
 header('Location: list.php');
 exit();
 ?>
