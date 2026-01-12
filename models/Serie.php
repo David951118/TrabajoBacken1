@@ -41,6 +41,19 @@ class Serie
     {
         $created = false;
         $mysqli = DBConection::getConnection();
+
+        // Comprobar que no existe otra serie con el mismo titulo antes de crear
+        $checkStmt = $mysqli->prepare("SELECT id FROM series WHERE title = ?");
+        $checkStmt->bind_param('s', $this->title);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows > 0) {
+            $checkStmt->close();
+            return false;
+        }
+        $checkStmt->close();
+
         $stmt = $mysqli->prepare("INSERT INTO series (title, platform_id, director_id) VALUES (?, ?, ?)");
         $stmt->bind_param('sii', $this->title, $this->platform_id, $this->director_id);
         if ($stmt->execute()) {

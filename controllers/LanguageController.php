@@ -19,7 +19,7 @@ function getLanguage($id)
 function storeLanguage($name, $iso_code)
 {
     $new = new Language(null, $name, $iso_code);
-    return $new->store() ? $new : false;
+    return $new->store();
 }
 
 function updateLanguage($id, $name, $iso_code)

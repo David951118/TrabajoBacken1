@@ -37,6 +37,19 @@ class Language
     {
         $created = false;
         $mysqli = DBConection::getConnection();
+
+        // Comprobar si existe idioma con mismo nombre O mismo codigo ISO
+        $checkStmt = $mysqli->prepare("SELECT id FROM languages WHERE name = ? OR iso_code = ?");
+        $checkStmt->bind_param('ss', $this->name, $this->iso_code);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows > 0) {
+            $checkStmt->close();
+            return false;
+        }
+        $checkStmt->close();
+
         $stmt = $mysqli->prepare("INSERT INTO languages (name, iso_code) VALUES (?, ?)");
         $stmt->bind_param('ss', $this->name, $this->iso_code);
         if ($stmt->execute()) {

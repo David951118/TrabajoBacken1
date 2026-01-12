@@ -1,16 +1,18 @@
 <?php
 require_once('../../controllers/PlatformController.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$sendData = false;
+$platformCreated = false;
+
+if (isset($_POST['createBtn'])) {
+    $sendData = true;
+}
+
+if ($sendData) {
     $name = $_POST['name'] ?? '';
+
     if (!empty($name)) {
-        if (storePlatform($name)) {
-            $message = "Plataforma creada correctamente.";
-        } else {
-            $error = "La plataforma no se ha creado correctamente.";
-        }
-    } else {
-        $error = "El nombre de la plataforma es obligatorio.";
+        $platformCreated = storePlatform($name);
     }
 }
 ?>
@@ -37,17 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Nueva Plataforma</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($message)): ?>
-                            <div class="alert alert-success" role="alert">
-                                <?php echo $message; ?><br><a href="list.php">Volver al listado de plataformas.</a>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php echo $error; ?><br><a href="create.php">Volver a intentarlo.</a>
-                            </div>
-                        <?php endif; ?>
-
+                        <?php if (!$sendData) { ?>
                         <form method="POST" action="create.php">
                             <div class="mb-4">
                                 <label for="name" class="form-label fw-bold">Nombre</label>
@@ -57,9 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="list.php" class="btn btn-secondary">Cancelar</a>
-                                <button type="submit" class="btn btn-primary px-4">Guardar</button>
+                                <button type="submit" name="createBtn" class="btn btn-primary px-4">Guardar</button>
                             </div>
                         </form>
+                        <?php } else { ?>
+                            <?php if ($platformCreated) { ?>
+                                <div class="alert alert-success" role="alert">
+                                    Plataforma creada correctamente.<br>
+                                    <a href="list.php">Volver al listado de plataformas.</a>
+                                </div>
+                            <?php } else { ?>
+                                <div class="alert alert-danger" role="alert">
+                                    La plataforma no se ha creado correctamente.<br>
+                                    <a href="create.php">Volver a intentarlo.</a>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

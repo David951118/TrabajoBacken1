@@ -45,6 +45,19 @@ class Director
     {
         $created = false;
         $mysqli = DBConection::getConnection();
+
+        // Comprobar si existe director con mismo nombre y apellido
+        $checkStmt = $mysqli->prepare("SELECT id FROM directors WHERE first_name = ? AND last_name = ?");
+        $checkStmt->bind_param('ss', $this->first_name, $this->last_name);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows > 0) {
+            $checkStmt->close();
+            return false;
+        }
+        $checkStmt->close();
+
         $stmt = $mysqli->prepare("INSERT INTO directors (first_name, last_name, birth_date, nationality) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssss', $this->first_name, $this->last_name, $this->birth_date, $this->nationality);
         if ($stmt->execute()) {

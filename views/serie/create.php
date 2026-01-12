@@ -6,20 +6,20 @@ require_once('../../controllers/DirectorController.php');
 $platforms = listPlatforms();
 $directors = listDirectors();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$sendData = false;
+$serieCreated = false;
+
+if (isset($_POST['createBtn'])) {
+    $sendData = true;
+}
+
+if ($sendData) {
     $title = $_POST['title'] ?? '';
     $platform_id = $_POST['platform_id'] ?? '';
     $director_id = $_POST['director_id'] ?? '';
+    
     if (!empty($title) && !empty($platform_id) && !empty($director_id)) {
-        $result = storeSerie($title, $platform_id, $director_id);
-        if ($result) {
-            header('Location: list.php');
-            exit();
-        } else {
-            $error = "Error al crear la serie.";
-        }
-    } else {
-        $error = "Todos los campos son obligatorios.";
+        $serieCreated = storeSerie($title, $platform_id, $director_id);
     }
 }
 ?>
@@ -60,13 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Crear Nueva Serie</h4>
                     </div>
                     <div class="card-body p-4">
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <div><?php echo $error; ?></div>
-                            </div>
-                        <?php endif; ?>
-
+                        <?php if (!$sendData) { ?>
                         <form method="POST" action="create.php">
                             <div class="mb-4">
                                 <label for="title" class="form-label">Título de la Serie</label>
@@ -101,9 +95,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                 <a href="list.php" class="btn btn-light me-md-2">Cancelar</a>
-                                <button type="submit" class="btn btn-success px-4">Guardar Serie</button>
+                                <button type="submit" name="createBtn" class="btn btn-success px-4">Guardar Serie</button>
                             </div>
                         </form>
+                        <?php } else { ?>
+                            <?php if ($serieCreated) { ?>
+                                <div class="alert alert-success" role="alert">
+                                    Serie creada correctamente.<br>
+                                    <a href="list.php">Volver al listado de series.</a>
+                                </div>
+                            <?php } else { ?>
+                                <div class="alert alert-danger" role="alert">
+                                    La serie no se ha creado correctamente.<br>
+                                    <a href="create.php">Volver a intentarlo.</a>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
 

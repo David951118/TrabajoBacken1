@@ -1,21 +1,21 @@
 <?php
 require_once('../../controllers/DirectorController.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$sendData = false;
+$directorCreated = false;
+
+if (isset($_POST['createBtn'])) {
+    $sendData = true;
+}
+
+if ($sendData) {
     $firstName = $_POST['first_name'] ?? '';
     $lastName = $_POST['last_name'] ?? '';
     $birthDate = $_POST['birth_date'] ?? '';
     $nationality = $_POST['nationality'] ?? '';
 
     if (!empty($firstName) && !empty($lastName)) {
-        if (storeDirector($firstName, $lastName, $birthDate, $nationality)) {
-            header('Location: list.php');
-            exit();
-        } else {
-            $error = "Error al crear el director.";
-        }
-    } else {
-        $error = "Nombre y Apellido son obligatorios.";
+        $directorCreated = storeDirector($firstName, $lastName, $birthDate, $nationality);
     }
 }
 ?>
@@ -42,11 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Nuevo Director(a)</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger"><i
-                                    class="fas fa-exclamation-triangle me-2"></i><?php echo $error; ?></div>
-                        <?php endif; ?>
-
+                        <?php if (!$sendData) { ?>
                         <form method="POST" action="create.php">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -69,9 +65,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="list.php" class="btn btn-secondary">Cancelar</a>
-                                <button type="submit" class="btn btn-info text-white px-4">Guardar</button>
+                                <button type="submit" name="createBtn" class="btn btn-info text-white px-4">Guardar</button>
                             </div>
                         </form>
+                        <?php } else { ?>
+                            <?php if ($directorCreated) { ?>
+                                <div class="alert alert-success" role="alert">
+                                    Director creado correctamente.<br>
+                                    <a href="list.php">Volver al listado de directores.</a>
+                                </div>
+                            <?php } else { ?>
+                                <div class="alert alert-danger" role="alert">
+                                    El director no se ha creado correctamente.<br>
+                                    <a href="create.php">Volver a intentarlo.</a>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

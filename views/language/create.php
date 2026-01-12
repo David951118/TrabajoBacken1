@@ -1,19 +1,19 @@
 <?php
 require_once('../../controllers/LanguageController.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$sendData = false;
+$languageCreated = false;
+
+if (isset($_POST['createBtn'])) {
+    $sendData = true;
+}
+
+if ($sendData) {
     $name = $_POST['name'] ?? '';
     $isoCode = $_POST['iso_code'] ?? '';
 
     if (!empty($name) && !empty($isoCode)) {
-        if (storeLanguage($name, $isoCode)) {
-            header('Location: list.php');
-            exit();
-        } else {
-            $error = "Error al crear el idioma.";
-        }
-    } else {
-        $error = "Nombre y Código ISO son obligatorios.";
+        $languageCreated = storeLanguage($name, $isoCode);
     }
 }
 ?>
@@ -40,11 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h4 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Nuevo Idioma</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger"><i
-                                    class="fas fa-exclamation-triangle me-2"></i><?php echo $error; ?></div>
-                        <?php endif; ?>
-
+                        <?php if (!$sendData) { ?>
                         <form method="POST" action="create.php">
                             <div class="mb-3">
                                 <label for="name" class="form-label fw-bold">Nombre del Idioma</label>
@@ -59,9 +55,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="list.php" class="btn btn-secondary">Cancelar</a>
-                                <button type="submit" class="btn btn-dark px-4">Guardar</button>
+                                <button type="submit" name="createBtn" class="btn btn-dark px-4">Guardar</button>
                             </div>
                         </form>
+                        <?php } else { ?>
+                            <?php if ($languageCreated) { ?>
+                                <div class="alert alert-success" role="alert">
+                                    Idioma creado correctamente.<br>
+                                    <a href="list.php">Volver al listado de idiomas.</a>
+                                </div>
+                            <?php } else { ?>
+                                <div class="alert alert-danger" role="alert">
+                                    El idioma no se ha creado correctamente.<br>
+                                    <a href="create.php">Volver a intentarlo.</a>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
